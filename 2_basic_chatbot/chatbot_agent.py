@@ -43,6 +43,25 @@ def stream_graph_updates(user_input: str):
             print("Assistant:", value["messages"][-1].content)
 
 
+# from IPython.display import Image
+# import os
+
+# # Generate the Mermaid graph image
+# mermaid_png = graph.get_graph().draw_mermaid_png()
+
+# # Get the directory of the current script
+# script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# # Create the file path for the image in the same directory as the script
+# file_path = os.path.join(script_dir, "mermaid_graph.png")
+
+# # Save the image
+# with open(file_path, "wb") as f:
+#     f.write(mermaid_png)
+
+# print(f"Mermaid graph image saved as: {file_path}")
+
+
 while True:
     try:
         user_input = input("User: ")
