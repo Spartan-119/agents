@@ -1,3 +1,6 @@
+import os
+from dotenv import load_dotenv
+
 from typing import Annotated
 
 from typing_extensions import TypedDict
@@ -5,6 +8,15 @@ from typing_extensions import TypedDict
 from langgraph.graph import StateGraph, START, END
 from langgraph.graph.message import add_messages
 from langchain_openai import ChatOpenAI
+
+from langchain_community.tools.tavily_search import TavilySearchResults
+
+load_dotenv()
+
+openai_api_key = os.getenv("OPENAI_API_KEY")
+tavily_api_key = os.getenv("TAVILY_API_KEY")
+
+os.environ["OPENAI_API_KEY"] = openai_api_key
 
 class State(TypedDict):
     # messages have the type "list". The "add_messages" function 
@@ -62,17 +74,25 @@ def stream_graph_updates(user_input: str):
 # print(f"Mermaid graph image saved as: {file_path}")
 
 
-while True:
-    try:
-        user_input = input("User: ")
-        if user_input.lower() in ["quit", "exit", "q"]:
-            print("Goodbye!")
-            break
+# while True:
+#     try:
+#         user_input = input("User: ")
+#         if user_input.lower() in ["quit", "exit", "q"]:
+#             print("Goodbye!")
+#             break
 
-        stream_graph_updates(user_input)
-    except:
-        # fallback if input() is not available
-        user_input = "What do you know about LangGraph?"
-        print("User: " + user_input)
-        stream_graph_updates(user_input)
-        break
+#         stream_graph_updates(user_input)
+#     except:
+#         # fallback if input() is not available
+#         user_input = "What do you know about LangGraph?"
+#         print("User: " + user_input)
+#         stream_graph_updates(user_input)
+#         break
+
+#####################################################3
+# enhancing the chatbot with tools
+
+tool = TavilySearchResults(max_result = 2)
+tools = [tool]
+response = tool.invoke("What is a 'node' in LangGraph?")
+print(response)
